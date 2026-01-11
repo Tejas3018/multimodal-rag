@@ -4,8 +4,6 @@ python-dotenv
 openai
 pinecone
 pillow
-torch
-transformers
 python-multipart
 requests
 PyPDF2

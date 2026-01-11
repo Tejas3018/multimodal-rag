@@ -4,7 +4,6 @@ from ingest import ingest_text, ingest_image, ingest_pdf_images, embed_text
 from rag import retrieve_text, retrieve_images, rag_answer
 from tools import TOOLS
 from openai import OpenAI
-from clip_embedder import embed_text_clip
 from urllib.parse import urlparse, parse_qs
 from pinecone_client import text_index, image_index
 import json
@@ -150,8 +149,7 @@ async def chat(payload: dict):
     q_vec = embed_text(query)
     text_context = retrieve_text(q_vec, doc_id=doc_id)
 
-    clip_vec = embed_text_clip(query)
-    image_captions = retrieve_images(clip_vec, doc_id=doc_id)
+    image_captions = retrieve_images(q_vec, doc_id=doc_id)
 
     # ---------- TOOL DECISION ----------
     tool_prompt = f"""

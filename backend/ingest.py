@@ -1,7 +1,6 @@
 import uuid, io, base64
 from openai import OpenAI
 from pinecone_client import text_index, image_index
-from clip_embedder import embed_image
 from PIL import Image
 
 client = OpenAI()
@@ -62,8 +61,8 @@ def caption_image(img: Image.Image) -> str:
 
 def ingest_image(image_bytes: bytes, doc_id: str | None = None):
     img = Image.open(io.BytesIO(image_bytes))
-    vec = embed_image(img)
     caption = caption_image(img)
+    vec = embed_text(caption)
     metadata = {"type": "image", "caption": caption}
     if doc_id:
         metadata["doc_id"] = doc_id
