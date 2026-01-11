@@ -66,3 +66,108 @@ The goal is to provide a lightweight but powerful demo of a multimodal RAG syste
   - PyPDF2, PyMuPDF (PDF handling)  
   - youtube-transcript-api (YouTube subtitles)  
   - Deployed on Render  
+
+---
+
+## Setup Instructions ⚙️
+
+### 1. Prerequisites
+
+- Python 3.11+ 🐍
+- Node.js (LTS) + npm 🧩
+- A Pinecone account and two indexes:
+  - Text index (dimension **3072**)
+  - Image index (dimension **3072**)
+- API keys:
+  - OpenAI
+  - Tavily
+  - Pinecone
+
+---
+
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/<your-username>/multimodal-rag.git
+cd multimodal-rag
+```
+
+---
+
+### 3. Backend Setup (FastAPI) 🧠
+
+From the project root:
+
+```bash
+cd backend
+python -m venv venv
+# PowerShell
+.\venv\Scripts\Activate.ps1
+# or Command Prompt
+venv\Scripts\activate.bat
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create a `.env` file in `backend/`:
+
+```env
+OPENAI_API_KEY=your_openai_key
+TAVILY_API_KEY=your_tavily_key
+
+PINECONE_API_KEY=your_pinecone_key
+PINECONE_TEXT_INDEX=your_text_index_name       # dimension 3072
+PINECONE_IMAGE_INDEX=your_image_index_name     # dimension 3072
+
+APP_ENV=development
+```
+
+
+
+Run the backend locally:
+
+```bash
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
+
+- API root: `http://localhost:8000`
+- Interactive docs: `http://localhost:8000/docs`
+
+---
+
+### 4. Frontend Setup (Next.js) 💻
+
+In a new terminal window:
+
+```bash
+cd frontend
+npm install
+```
+
+Create `frontend/.env.local`:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+- Frontend: `http://localhost:3000`
+
+You can now:
+
+1. Open `http://localhost:3000`.
+2. Upload a PDF or image.
+3. Ask questions about your uploaded content.
+4. Try YouTube ingestion and web search modes.
+
+---
+
